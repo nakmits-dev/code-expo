@@ -7,6 +7,7 @@ import { RepositoryCard } from './components/RepositoryCard';
 import { RateLimitInfo } from './components/RateLimitInfo';
 import { UsernameInput } from './components/UsernameInput';
 import { UserProfile } from './components/UserProfile';
+import { ShareButtons } from './components/ShareButtons';
 import { useGithubUsername } from './contexts/GithubContext';
 
 function App() {
@@ -18,6 +19,10 @@ function App() {
       <Helmet>
         <title>{`Code Expo - ${username}'s Portfolio`}</title>
         <meta name="description" content={`${username}のGitHubプロジェクトショーケース`} />
+        <meta property="og:title" content={`${username}のポートフォリオ - Code Expo`} />
+        <meta property="og:description" content={`${username}のGitHubプロジェクトショーケース`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${window.location.origin}/?user=${username}`} />
       </Helmet>
 
       <div className="min-h-screen bg-white">
@@ -93,6 +98,7 @@ function App() {
           )}
         </main>
 
+        <ShareButtons />
         <RateLimitInfo />
       </div>
     </>

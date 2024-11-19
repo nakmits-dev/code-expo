@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface GithubContextType {
   username: string;
@@ -8,7 +8,18 @@ interface GithubContextType {
 const GithubContext = createContext<GithubContextType | undefined>(undefined);
 
 export function GithubProvider({ children }: { children: React.ReactNode }) {
-  const [username, setUsername] = useState('nakmits-dev');
+  const [username, setUsername] = useState(() => {
+    // URLクエリからユーザー名を取得
+    const params = new URLSearchParams(window.location.search);
+    return params.get('user') || 'nakmits-dev';
+  });
+
+  // ユーザー名が変更されたらURLを更新
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('user', username);
+    window.history.pushState({}, '', url.toString());
+  }, [username]);
 
   return (
     <GithubContext.Provider value={{ username, setUsername }}>
